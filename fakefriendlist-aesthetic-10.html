@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>friendly.</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#050505;color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+button,input{font:inherit}button{cursor:pointer}
+:root{--pink:#ff3b91;--red:#ff1010;--cyan:#00f6ff;--green:#62ff72}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:min(100%,430px);padding:30px;border:1px solid #24242a;border-radius:28px;background:#0c0c10;box-shadow:0 30px 100px #000}
+.brand{font-weight:900;font-size:25px;letter-spacing:-1px;margin-bottom:8px}.brand span{color:var(--pink)}
+.sub{color:#85838c;font-size:14px;line-height:1.5}
+.nameRow{display:flex;gap:8px;margin-top:22px}.nameRow input{flex:1}.nameRow button{width:82px}
+input{background:#08080b;color:#fff;border:1px solid #303039;border-radius:14px;padding:15px;outline:0}
+input:focus{border-color:#9b75ff}
+.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:900}.go{background:#fff;color:#090909}.dark{background:#17171c;color:#fff;border:1px solid #2c2c34}
+.admin{margin-top:18px;background:none;border:0;color:#555;font-size:11px}
+
+
+.aesthetic-home{
+  position:relative;
+  background:
+    radial-gradient(circle at 18% 18%, #ffb7d944 0 10%, transparent 32%),
+    radial-gradient(circle at 84% 24%, #b8b7ff40 0 11%, transparent 34%),
+    radial-gradient(circle at 52% 90%, #9fffe044 0 9%, transparent 30%),
+    linear-gradient(135deg,#fff8fb 0%,#f4f0ff 48%,#effcf9 100%);
+  color:#282331;
+}
+.aesthetic-home:before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 0 30%,#ffffff55 45%,transparent 60%);
+  animation:sheen 7s ease-in-out infinite;
+}
+.aurora{position:absolute;border-radius:50%;filter:blur(55px);opacity:.55;pointer-events:none}
+.aurora1{width:230px;height:230px;background:#ff8fc8;left:-70px;top:8%;animation:floatA 7s ease-in-out infinite}
+.aurora2{width:260px;height:260px;background:#8f9cff;right:-80px;bottom:2%;animation:floatB 9s ease-in-out infinite}
+.grain{position:absolute;inset:0;opacity:.055;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.aesthetic-card{
+  position:relative;
+  padding:36px 28px 24px;
+  border:1px solid #ffffffcc;
+  border-radius:32px;
+  background:#ffffffb8;
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  box-shadow:0 25px 80px #8d789c22, inset 0 1px #fff;
+}
+.tiny-label{font-size:10px;letter-spacing:3px;font-weight:900;color:#9c7897;text-align:center;margin-bottom:14px}
+.aesthetic-brand{font-size:48px;text-align:center;color:#292532;letter-spacing:-2.5px}
+.aesthetic-brand span{color:#ef73aa}
+.aesthetic-sub{text-align:center;color:#766d7b;max-width:290px;margin:8px auto 20px}
+.question-pill{
+  width:max-content;max-width:100%;margin:0 auto 15px;
+  padding:8px 13px;border-radius:99px;
+  background:#fff8;border:1px solid #fff;
+  color:#8a7588;font-size:11px;font-weight:800;
+  box-shadow:0 5px 20px #8e729c12;
+}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#79d9bf;margin-right:6px;box-shadow:0 0 10px #79d9bf}
+.aesthetic-row{background:#ffffff90;border:1px solid #fff;padding:6px;border-radius:18px;box-shadow:0 10px 30px #8e729c15}
+.aesthetic-row input{background:transparent;border:0;color:#332d38;padding:13px}
+.aesthetic-row input::placeholder{color:#a39aa7}
+.aesthetic-go{width:auto!important;min-width:105px;background:#2f2a36;color:#fff;border-radius:14px;padding:13px 15px;box-shadow:0 8px 20px #3029362b}
+.privacy{text-align:center;font-size:10px;color:#aaa0ab;margin-top:12px}
+.aesthetic-card .admin{display:block;margin:17px auto 0;color:#a49aa7}
+@keyframes floatA{50%{transform:translate(28px,18px) scale(1.08)}}
+@keyframes floatB{50%{transform:translate(-22px,-25px) scale(.94)}}
+@keyframes sheen{0%,100%{transform:translateX(-25%);opacity:.2}50%{transform:translateX(25%);opacity:.7}}
+
+#panic{display:none;position:fixed;inset:0;background:#000;overflow:hidden;z-index:20}
+#panic.shake{animation:shake .08s infinite}
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,#ffffff07 0,#ffffff07 1px,transparent 1px,transparent 4px);pointer-events:none;z-index:90}
+.noise{position:absolute;inset:-20%;opacity:.18;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen;animation:noiseMove .12s steps(2) infinite;z-index:80}
+.vignette{position:absolute;inset:0;box-shadow:inset 0 0 180px 60px #000;pointer-events:none;z-index:95}
+#message{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:1000;font-size:clamp(34px,12vw,105px);color:#fff;text-shadow:0 0 12px #fff,0 0 40px var(--red),5px 0 #00ffff,-5px 0 #ff00ff;z-index:60;padding:20px;transition:.04s}
+#submsg{position:absolute;left:5vw;right:5vw;bottom:7vh;text-align:center;color:#ff3030;font:900 13px/1.5 monospace;z-index:70;letter-spacing:1px}
+#face{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:min(48vw,330px);z-index:100;color:#fff;text-shadow:0 0 25px red,0 0 80px red;animation:facePulse .12s infinite}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:110;pointer-events:none}
+#redLayer,#blueLayer,#greenLayer{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:50;mix-blend-mode:screen}
+#redLayer{background:#f00;transform:translate(5px)}#blueLayer{background:#00f;transform:translate(-5px)}#greenLayer{background:#0f0;transform:translateY(3px)}
+#terminal{position:absolute;left:3vw;top:4vh;width:min(94vw,720px);height:min(62vh,520px);display:none;background:#020502ee;border:1px solid #24ff4b;box-shadow:0 0 30px #00ff3022;z-index:40;color:#39ff55;padding:16px;font:12px/1.45 monospace;overflow:hidden}
+.termLine{white-space:pre-wrap}
+#bsod{display:none;position:absolute;inset:0;background:#063b9c;color:#fff;z-index:75;padding:8vh 8vw;font-family:monospace}
+#bsod h1{font-size:clamp(55px,16vw,120px);margin:0 0 30px}
+#bsod p{font-size:clamp(13px,3vw,20px);max-width:800px;line-height:1.6}
+#corrupt{display:none;position:absolute;inset:0;z-index:85;background:repeating-linear-gradient(90deg,transparent 0 7px,#ff000033 8px 11px,#00ffff33 12px 16px);animation:corrupt .05s infinite}
+.alert{position:absolute;z-index:65;border:2px solid var(--red);background:#080808f2;color:#ff2a2a;padding:12px 15px;box-shadow:0 0 28px #f003;min-width:190px;font-weight:900;font-size:13px;animation:jitter .08s infinite}
+.alert small{color:#ddd}.person{color:#fff}
+.counter{position:absolute;right:15px;top:15px;z-index:100;background:#000c;border:1px solid #f00;color:#f33;padding:7px 10px;font:900 11px monospace}
+.fakeCursor{position:absolute;width:18px;height:24px;z-index:120;display:none;filter:drop-shadow(0 0 4px #fff)}
+.fakeCursor:before{content:"";display:block;width:0;height:0;border-top:20px solid #fff;border-right:11px solid transparent;transform:rotate(-18deg)}
+@keyframes jitter{0%{transform:translate(0)}25%{transform:translate(4px,-3px)}50%{transform:translate(-4px,3px)}75%{transform:translate(3px,4px)}100%{transform:translate(-3px,-2px)}}
+@keyframes shake{0%{transform:translate(0)}25%{transform:translate(4px,-3px)}50%{transform:translate(-4px,4px)}75%{transform:translate(3px,2px)}100%{transform:translate(-3px,-4px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.05}}
+@keyframes noiseMove{0%{transform:translate(0,0)}50%{transform:translate(3%,-2%)}100%{transform:translate(-2%,3%)}}
+@keyframes facePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes corrupt{0%{transform:translate(0)}25%{transform:translate(-9px,2px)}50%{transform:translate(8px,-3px)}75%{transform:translate(-4px,4px)}100%{transform:translate(7px,0)}}
+
+#admin{display:none;position:fixed;inset:0;background:#070709;z-index:150;padding:22px;overflow:auto}
+.adminBox{width:min(100%,600px);margin:auto}.adminHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid #202026;background:#0d0d11}.row:first-child{border-radius:15px 15px 0 0}.row:last-child{border-radius:0 0 15px 15px}
+.pill{background:#d7ff6320;color:#d7ff63;border-radius:99px;padding:6px 9px;font-size:11px;font-weight:900}
+#done{display:none;position:fixed;inset:0;background:#000;z-index:160;align-items:center;justify-content:center;text-align:center;padding:25px}
+#done h1{font-size:clamp(48px,14vw,100px);margin:0 0 10px}
+</style>
+</head>
+<body>
+
+<div id="home" class="page aesthetic-home">
+  <div class="aurora aurora1"></div>
+  <div class="aurora aurora2"></div>
+  <div class="grain"></div>
+  <div class="card aesthetic-card">
+    <div class="tiny-label">✦ FRIEND CHECK ✦</div>
+    <div class="brand aesthetic-brand">friendly<span>.</span></div>
+    <div class="sub aesthetic-sub">A tiny quiz to see who really knows you.</div>
+
+    <div class="question-pill">
+      <span class="dot"></span>
+      ready when you are
+    </div>
+
+    <div class="nameRow aesthetic-row">
+      <input id="visitorName" maxlength="30" placeholder="enter your name" autocomplete="off">
+      <button class="btn go aesthetic-go" id="enter">LET'S GO ✦</button>
+    </div>
+
+    <div class="privacy">No account needed · just your name</div>
+    <button class="admin" id="adminBtn">creator access</button>
+  </div>
+</div>
+
+<div id="panic">
+  <div class="noise"></div><div class="scan"></div><div class="vignette"></div>
+  <div id="redLayer"></div><div id="blueLayer"></div><div id="greenLayer"></div>
+  <div id="corrupt"></div><div id="flash"></div>
+  <div class="counter" id="counter">THREAT SCAN: 0%</div>
+  <div id="terminal"></div>
+  <div id="bsod">
+    <h1>:(</h1>
+    <p id="bsodText">Your device ran into a problem and needs to restart.</p>
+    <p>Collecting diagnostic information... <span id="bsodPct">0%</span></p>
+  </div>
+  <div id="message"></div>
+  <div id="submsg"></div>
+  <div id="face">☠</div>
+  <div class="fakeCursor" id="fakeCursor"></div>
+</div>
+
+<div id="admin">
+  <div class="adminBox">
+    <div class="adminHead"><h2>Creator Dashboard</h2><button class="btn dark" onclick="closeAdmin()">Close</button></div>
+    <div class="sub" style="margin-bottom:18px">Names saved by this prank on this browser.</div>
+    <div id="people"></div>
+    <button class="btn dark" style="margin-top:15px" onclick="clearPeople()">Clear names</button>
+  </div>
+</div>
+
+<div id="done">
+  <div>
+    <h1>😂 GOTCHA</h1>
+    <p>Semua efek tadi hanya simulasi visual. Tidak ada malware yang di-install, file yang dihapus, atau sistem yang diubah.</p>
+    <button class="btn go" onclick="location.reload()">Back</button>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ADMIN_PIN="2468"; // GANTI PIN INI
+let audio=null,timers=[],currentName="",audioStarted=false;
+
+function start(){
+  currentName=$("visitorName").value.trim();
+  if(!currentName){$("visitorName").focus();return}
+  let names=JSON.parse(localStorage.getItem("friend_prank_names")||"[]");
+  names.push({name:currentName,time:new Date().toLocaleString()});
+  localStorage.setItem("friend_prank_names",JSON.stringify(names));
+
+  $("home").style.display="none";
+  $("panic").style.display="block";
+  try{document.documentElement.requestFullscreen?.()}catch(e){}
+  initAudio();
+  runPrank();
+}
+$("enter").onclick=start;
+$("visitorName").addEventListener("keydown",e=>{if(e.key==="Enter")start()});
+
+function initAudio(){
+  try{
+    audio=new (window.AudioContext||window.webkitAudioContext)();
+    if(audio.state==="suspended")audio.resume();
+    audioStarted=true;
+  }catch(e){}
+}
+
+/* Audio is intentionally intense but limited by a compressor/limiter.
+   The browser/system volume still controls the final loudness. */
+function master(){
+  if(!audio)return null;
+  const comp=audio.createDynamicsCompressor();
+  comp.threshold.value=-18; comp.knee.value=12; comp.ratio.value=12;
+  comp.attack.value=.003; comp.release.value=.12;
+  const gain=audio.createGain(); gain.gain.value=.82;
+  gain.connect(comp);comp.connect(audio.destination);
+  return gain;
+}
+let out=null;
+function ensureOut(){if(!out)out=master();return out}
+
+function tone(freq,dur,type="square",gain=.11,slide=0){
+  if(!audio)return;
+  const o=audio.createOscillator(),g=audio.createGain();
+  o.type=type;o.frequency.setValueAtTime(Math.max(20,freq),audio.currentTime);
+  if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(20,slide),audio.currentTime+dur);
+  g.gain.setValueAtTime(gain,audio.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+dur);
+  o.connect(g);g.connect(ensureOut());o.start();o.stop(audio.currentTime+dur+.02);
+}
+function noiseBurst(d=.22,gain=.14){
+  if(!audio)return;
+  const b=audio.createBuffer(1,Math.floor(audio.sampleRate*d),audio.sampleRate);
+  const data=b.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length);
+  const s=audio.createBufferSource(),g=audio.createGain();
+  s.buffer=b;g.gain.value=gain;s.connect(g);g.connect(ensureOut());s.start();
+}
+function siren(){
+  if(!audio)return;
+  tone(520,.28,"sawtooth",.13,980);
+  setTimeout(()=>tone(980,.28,"sawtooth",.13,520),290);
+  setTimeout(()=>tone(520,.28,"sawtooth",.13,1100),580);
+}
+function alarmBurst(){
+  siren();noiseBurst(.35,.17);
+  setTimeout(()=>siren(),700);
+}
+function jumpSound(){
+  tone(70,.65,"sawtooth",.18,1600);
+  setTimeout(()=>tone(1600,.22,"square",.16,110),70);
+  noiseBurst(.55,.2);
+}
+
+const messages=[
+  ["CONNECTING TO DEVICE...", "SECURE CHANNEL: FAILED"],
+  ["THREAT DETECTED", "MALWARE ENGINE: CRITICAL"],
+  ["ACCESS DENIED", "UNAUTHORIZED SESSION"],
+  ["DEVICE COMPROMISED", "MULTIPLE THREATS DETECTED"],
+  ["ROOT ACCESS", "SIMULATION // NO REAL ACCESS"],
+  ["SYSTEM CORRUPTED", "VISUAL MEMORY ERROR"],
+  ["ENCRYPTING...", "FILES: 1,248 / 1,248"],
+  ["DO NOT CLOSE", "RECOVERY MAY FAIL"],
+  ["HELP ME", "I CAN SEE YOU, "+currentName.toUpperCase()],
+  ["HELLO "+currentName.toUpperCase(), "YOUR SESSION HAS BEEN FLAGGED"],
+  ["!!! CRITICAL !!!", "IMMEDIATE ATTENTION REQUIRED"]
+];
+
+function runPrank(){
+  let idx=0;
+  $("panic").classList.add("shake");
+
+  showMessage(messages[0]);
+  timers.push(setTimeout(()=>phase1(),900));
+  timers.push(setTimeout(()=>phase2(),3200));
+  timers.push(setTimeout(()=>phase3(),6200));
+  timers.push(setTimeout(()=>phase4(),9200));
+  timers.push(setTimeout(()=>jumpscare(),11800));
+  timers.push(setTimeout(()=>finish(),14500));
+
+  function phase1(){
+    showMessage(messages[1]); spawnAlerts(7); siren();
+    setTimeout(()=>showMessage(messages[2]),700);
+    setTimeout(()=>showMessage(messages[3]),1400);
+    setTimeout(()=>showMessage(messages[4]),2100);
+  }
+  function phase2(){
+    $("terminal").style.display="block";
+    terminalFlood();
+    showMessage(messages[5]); spawnAlerts(8);
+    noiseBurst(.4,.16); tone(90,.7,"sawtooth",.14,45);
+  }
+  function phase3(){
+    $("terminal").style.display="none";
+    $("bsod").style.display="block";
+    $("bsodText").textContent="A critical security exception occurred while processing your session: "+currentName.toUpperCase();
+    fakeProgress();
+    showMessage(messages[6]); alarmBurst();
+  }
+  function phase4(){
+    $("bsod").style.display="none";
+    $("corrupt").style.display="block";
+    spawnAlerts(12);
+    showMessage(messages[7]);
+    colorGlitch();
+    setTimeout(()=>showMessage(messages[8]),650);
+    setTimeout(()=>showMessage(messages[9]),1250);
+    setTimeout(()=>showMessage(messages[10]),1850);
+    moveCursor();
+  }
+}
+
+function showMessage(pair){
+  $("message").textContent=pair[0];
+  $("submsg").textContent=pair[1];
+  $("message").style.animation="none";
+  void $("message").offsetWidth;
+  $("message").style.animation="blink .13s 4";
+  $("counter").textContent="THREAT SCAN: "+Math.floor(15+Math.random()*85)+"%";
+  tone(55+Math.random()*850,.13,"square",.10);
+  if(Math.random()>.35)noiseBurst(.16,.12);
+}
+
+function spawnAlerts(n){
+  for(let i=0;i<n;i++){
+    timers.push(setTimeout(()=>{
+      const a=document.createElement("div");a.className="alert";
+      a.style.left=(Math.random()*78+3)+"vw";
+      a.style.top=(Math.random()*76+4)+"vh";
+      const titles=["CRITICAL ERROR","MALWARE ALERT","SECURITY BREACH","TROJAN DETECTED","ACCESS VIOLATION","MEMORY CORRUPTION","REMOTE SESSION","SYSTEM WARNING"];
+      a.innerHTML=`⚠ ${titles[Math.floor(Math.random()*titles.length)]}<br><span class="person">${safe(currentName)}</span><br><small>STATUS: ${["CRITICAL","FAILED","BLOCKED","UNKNOWN"][Math.floor(Math.random()*4)]}</small>`;
+      $("panic").appendChild(a);
+      tone(180+Math.random()*500,.09,"square",.08);
+      setTimeout(()=>a.remove(),2200+Math.random()*1800);
+    },i*180));
+  }
+}
+
+function terminalFlood(){
+  const t=$("terminal");
+  t.innerHTML="";
+  const lines=[
+    "[SECURITY] scanning process tree...",
+    "[WARNING] suspicious session detected",
+    "[ERROR] permission denied",
+    "[MALWARE] signature match: 0x9F-CRITICAL",
+    "[NETWORK] unauthorized connection blocked",
+    "[MEMORY] integrity check failed",
+    "[RECOVERY] attempting emergency rollback...",
+    "[RECOVERY] rollback FAILED",
+    "[ALERT] user: "+currentName.toUpperCase(),
+    "[SYSTEM] visual simulation active",
+    "[SYSTEM] DO NOT TRUST THIS SCREEN"
+  ];
+  let i=0;
+  const add=()=>{
+    if(i>=70)return;
+    const line=document.createElement("div");line.className="termLine";
+    line.textContent=lines[i%lines.length]+"  "+Math.random().toString(16).slice(2,10);
+    t.appendChild(line);t.scrollTop=t.scrollHeight;i++;
+    tone(100+Math.random()*180,.025,"square",.045);
+    timers.push(setTimeout(add,35+Math.random()*55));
+  };
+  add();
+}
+
+function fakeProgress(){
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+Math.floor(Math.random()*9)+2);
+    $("bsodPct").textContent=p+"%";
+    if(p>=100){clearInterval(iv)}
+  },180);
+  timers.push(iv);
+}
+
+function colorGlitch(){
+  let n=0;
+  const iv=setInterval(()=>{
+    $("redLayer").style.opacity=(Math.random()*.35).toFixed(2);
+    $("blueLayer").style.opacity=(Math.random()*.35).toFixed(2);
+    $("greenLayer").style.opacity=(Math.random()*.18).toFixed(2);
+    $("flash").style.opacity=Math.random()>.82?".8":"0";
+    n++;
+    if(n>55){clearInterval(iv);$("redLayer").style.opacity=0;$("blueLayer").style.opacity=0;$("greenLayer").style.opacity=0;$("flash").style.opacity=0}
+  },75);
+  timers.push(iv);
+}
+
+function moveCursor(){
+  const c=$("fakeCursor");c.style.display="block";
+  let n=0;
+  const iv=setInterval(()=>{
+    c.style.left=(Math.random()*90+3)+"vw";
+    c.style.top=(Math.random()*85+3)+"vh";
+    n++;
+    if(n>25){clearInterval(iv);c.style.display="none"}
+  },120);
+  timers.push(iv);
+}
+
+function jumpscare(){
+  $("message").style.display="none";$("submsg").style.display="none";
+  $("terminal").style.display="none";$("bsod").style.display="none";$("corrupt").style.display="none";
+  $("face").style.display="flex";
+  $("panic").classList.add("shake");
+  $("flash").style.opacity=".95";
+  jumpSound();
+  if(navigator.vibrate)navigator.vibrate([180,60,320,60,650]);
+  setTimeout(()=>{$("flash").style.opacity="0"},180);
+  setTimeout(()=>{$("face").style.display="none";$("message").style.display="flex"},900);
+}
+
+function finish(){
+  timers.forEach(x=>{try{clearTimeout(x);clearInterval(x)}catch(e){}});
+  $("panic").classList.remove("shake");
+  $("panic").style.display="none";
+  $("done").style.display="flex";
+  try{document.exitFullscreen?.()}catch(e){}
+}
+
+function safe(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+
+$("adminBtn").onclick=()=>{
+  let p=prompt("Creator PIN:");
+  if(p===ADMIN_PIN)openAdmin(); else if(p!==null)alert("Wrong PIN");
+};
+function openAdmin(){
+  $("home").style.display="none";$("admin").style.display="block";
+  let list=JSON.parse(localStorage.getItem("friend_prank_names")||"[]");
+  $("people").innerHTML=list.length?list.map((x,i)=>`<div class="row"><div><b>${safe(x.name)}</b><div style="color:#666;font-size:11px">${safe(x.time)}</div></div><span class="pill">#${i+1}</span></div>`).join(""):"<div class='row'>No names yet.</div>";
+}
+function closeAdmin(){$("admin").style.display="none";$("home").style.display="flex"}
+function clearPeople(){if(confirm("Clear all names?")){localStorage.removeItem("friend_prank_names");openAdmin()}}
+</script>
+</body>
+</html>
